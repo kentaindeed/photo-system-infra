@@ -44,7 +44,7 @@ resource "aws_s3_bucket_versioning" "maintf" {
     bucket = aws_s3_bucket.photo-bucket.id
 
     versioning_configuration {
-        status = "disabled"
+        status = "Disabled"
     }
 }
 
