@@ -5,7 +5,7 @@ locals {
   }
 
   common_tags = {
-    Environment = "dev"
+    Environment = "prod"
     Project = "photo-system"
     Owner = "kentaindeed"
     CreatedBy = "terraform"

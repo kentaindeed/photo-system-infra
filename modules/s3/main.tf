@@ -19,7 +19,7 @@ locals {
     "ap-northeast-1c"
 ]
     # 名前のプレフィックスを定義
-    name_prefix = "${local.common_tags.Environment}-${local.common_tags.Project}"
+    name_prefix = "${var.env}-${local.common_tags.Project}"
 }
 
 
@@ -41,9 +41,22 @@ resource "aws_s3_bucket_public_access_block" "s3_buckets_access" {
 }
 
 resource "aws_s3_bucket_versioning" "maintf" {
-    bucket = aws_s3_bucket.maintf.id
+    bucket = aws_s3_bucket.photo-bucket.id
 
     versioning_configuration {
         status = "disabled"
     }
 }
+
+# 暗号化
+resource "aws_s3_bucket_server_side_encryption_configuration" "maintf" {
+    bucket = aws_s3_bucket.photo-bucket.id
+
+    rule {
+        apply_server_side_encryption_by_default {
+            sse_algorithm = "AES256"
+        }
+    }
+}
+
+
