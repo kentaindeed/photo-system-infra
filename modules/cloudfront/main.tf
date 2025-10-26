@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "main" {
     viewer_protocol_policy      = "redirect-to-https"
 
     forwarded_values {
-      headers                 = ["*"]
+      headers                 = []
       query_string            = false
       query_string_cache_keys = []
 
