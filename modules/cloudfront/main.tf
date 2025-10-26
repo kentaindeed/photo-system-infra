@@ -1,7 +1,7 @@
 #Cloudfront
 resource "aws_cloudfront_distribution" "main" {
   http_version          = "http2"
-  enabled               = true
+  enabled               = false
   wait_for_deployment   = false
   is_ipv6_enabled       = true
 
@@ -22,15 +22,10 @@ resource "aws_cloudfront_distribution" "main" {
     compress                    = true
     viewer_protocol_policy      = "redirect-to-https"
 
-    forwarded_values {
-      headers                 = []
-      query_string            = false
-      query_string_cache_keys = []
-
-      cookies {
-        forward = "none"
-      }
-    }
+    # 3つのポリシーを設定
+    cache_policy_id            = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"  # CachingDisabled
+    origin_request_policy_id   = "88a5eaf4-2fd4-4709-b370-b4c650ea3fcf"  # CORS-S3Origin
+    response_headers_policy_id = "60669652-455b-4ae9-85a4-c4c02393f86c"  # SimpleCORS
   }
 
   restrictions {
