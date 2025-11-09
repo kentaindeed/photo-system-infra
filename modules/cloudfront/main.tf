@@ -5,15 +5,19 @@ resource "aws_cloudfront_distribution" "main" {
   wait_for_deployment   = false
   is_ipv6_enabled       = true
 
+  aliases =  [
+    var.domain_name
+  ]
+
   origin {
     domain_name           = var.s3_domain_name
     origin_id             = var.s3_bucket_id
     origin_access_control_id = aws_cloudfront_origin_access_control.main.id
   }
 
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
+  # viewer_certificate {
+  #   cloudfront_default_certificate = true
+  # }
 
   default_cache_behavior {
     target_origin_id            = var.s3_bucket_id
@@ -32,6 +36,13 @@ resource "aws_cloudfront_distribution" "main" {
     geo_restriction {
       restriction_type    = "none"
     }
+  }
+
+  # ssl certificate
+  viewer_certificate {
+    acm_certificate_arn      = var.acm_arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 }
 
